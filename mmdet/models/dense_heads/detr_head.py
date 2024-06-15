@@ -8,7 +8,7 @@ from mmcv.runner import force_fp32
 
 from mmdet.core import (bbox_cxcywh_to_xyxy, bbox_xyxy_to_cxcywh,
                         build_assigner, build_sampler, multi_apply,
-                        reduce_mean, Uncertainty)
+                        reduce_mean)
 from mmdet.models.utils import build_transformer
 from ..builder import HEADS, build_loss
 from .anchor_free_head import AnchorFreeHead

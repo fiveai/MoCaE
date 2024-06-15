@@ -8,8 +8,7 @@ from mmcv.ops import batched_nms
 from mmcv.runner import BaseModule, force_fp32
 
 
-from mmdet.core.utils import filter_scores_and_topk, select_single_mlvl, Uncertainty
-from mmdet.core import Uncertainty
+from mmdet.core.utils import filter_scores_and_topk, select_single_mlvl
 
 import numpy as np
 import os

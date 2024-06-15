@@ -5,7 +5,7 @@ from torch import distributions
 
 from mmcv.cnn import ConvModule
 
-from mmdet.core import vectorize_labels, bbox_overlaps, multiclass_nms, Uncertainty
+from mmdet.core import vectorize_labels, bbox_overlaps, multiclass_nms
 from mmcv.runner import force_fp32
 from mmdet.models.losses import ranking_losses
 
