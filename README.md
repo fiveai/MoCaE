@@ -5,9 +5,6 @@ The official implementation of "MoCaE: Mixture of Calibrated Experts Significant
 > [**MoCaE: Mixture of Calibrated Experts Significantly Improves Accuracy in Object Detection**](https://arxiv.org/abs/2309.14976)            
 > Kemal Oksuz, Selim Kuzucu, Tom Joy, Puneet K. Dokania
 
-[![PWC](http://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/large-selective-kernel-network-for-remote/object-detection-in-aerial-images-on-dota-1)](https://paperswithcode.com/sota/object-detection-in-aerial-images-on-dota-1?p=large-selective-kernel-network-for-remote)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/large-selective-kernel-network-for-remote/oriented-object-detection-on-dota-1-0)](https://paperswithcode.com/sota/oriented-object-detection-on-dota-1-0?p=large-selective-kernel-network-for-remote)
-
 ## Introduction
 
 Combining the strengths of many existing predictors to obtain a Mixture of Experts which is superior to its individual components is an effective way to improve the performance without having to develop new architectures or train a model from scratch. With this repository, we aim to provide the means to construct an effective Mixture of Experts of object detectors through calibration.
