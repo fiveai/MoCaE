@@ -1,5 +1,8 @@
 # MoCaE: Mixture of Calibrated Experts Significantly Improves Accuracy in Object Detection
 
+[![arXiv](https://img.shields.io/badge/arXiv-2309.14976-b31b1b.svg)](https://arxiv.org/abs/2309.14976) [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/mocae-mixture-of-calibrated-experts/object-detection-in-aerial-images-on-dota-1)](https://paperswithcode.com/sota/object-detection-in-aerial-images-on-dota-1?p=mocae-mixture-of-calibrated-experts) [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/mocae-mixture-of-calibrated-experts/oriented-object-detection-on-dota-1-0)](https://paperswithcode.com/sota/oriented-object-detection-on-dota-1-0?p=mocae-mixture-of-calibrated-experts) [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/mocae-mixture-of-calibrated-experts/object-detection-on-coco)](https://paperswithcode.com/sota/object-detection-on-coco?p=mocae-mixture-of-calibrated-experts)
+
+
 The official implementation of "MoCaE: Mixture of Calibrated Experts Significantly Improves Accuracy in Object Detection".
 
 > [**MoCaE: Mixture of Calibrated Experts Significantly Improves Accuracy in Object Detection**](https://arxiv.org/abs/2309.14976)            
