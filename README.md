@@ -14,84 +14,65 @@ Combining the strengths of many existing predictors to obtain a Mixture of Exper
 
 Using this repository, you can 
 
-- Reproduce single model performances
-- Reproduce a Deep Ensemble (RS R-CNN x 5 with 43.4 AP), Vanilla MoE (with 43.4 AP) and our MoCaE (with 45.5 AP)
-- Obtain calibrators 
+- Reproduce single model performances for object detection,
+- Reproduce a Deep Ensemble (RS R-CNN x 5 with 43.4 AP), Vanilla MoE (with 43.4 AP) and MoCaE (with 45.5 AP),
+- Obtain calibrators for object detectors
 
-## Specification of Dependencies and Preparation
+Coming Soon:
+- Reproduce our DOTA result with MoCaE which is the state-of-the-art currently,
+- Obtain calibrators for rotated object detectors
+  
+## Specification of Dependencies
 
 - Please see [get_started.md](docs/en/get_started.md) for requirements and installation of mmdetection.
+
+## Reproducing Object Detection Results
+
 - Please download [this zip file](https://drive.google.com/file/d/10KizA1LWH8xdHKz5qDUmRL81wgMJx3wG/view?usp=sharing) and place it under the root. This provides inference results of the detectors on COCO mini-test.
 - Please download the relevant annotations from this [Google Drive link](https://drive.google.com/drive/u/0/folders/1tYKERgVQhx0UkAfGRl7sEHFnNpYNOkBy)
+  
+### 1. Reproducing Object Detection Results in Table 3
 
-## 1. Reproducing Single Models (Table 3 and Table 4)
-
-### RS R-CNN
-Please run the following command,
+- For single models, please run the following command for RS R-CNN, ATSS and PAA respectively:
 
 ```
 python tools/test_ensemble.py configs/calibration/single_models/rs_r50_fpn_straug_3x_minicoco.py --eval bbox
+python tools/test_ensemble.py configs/calibration/single_models/atss_r50_fpn_straug_3x_minicoco.py --eval bbox
+python tools/test_ensemble.py configs/calibration/single_models/paa_r50_fpn_straug_3x_minicoco.py --eval bbox
 ```
 and obtain the following results:
 
 ('bbox_mAP', 0.424), ('bbox_mAP_50', 0.621), ('bbox_mAP_75', 0.462), ('bbox_mAP_s', 0.268), ('bbox_mAP_m', 0.463), ('bbox_mAP_l', 0.569)
 
-### ATSS
-
-Please run the following command,
-
-```
-python tools/test_ensemble.py configs/calibration/single_models/atss_r50_fpn_straug_3x_minicoco.py --eval bbox
-```
-and obtain the following results:
-
 ('bbox_mAP', 0.431), ('bbox_mAP_50', 0.615), ('bbox_mAP_75', 0.471), ('bbox_mAP_s', 0.278), ('bbox_mAP_m', 0.475), ('bbox_mAP_l', 0.542)
-
-### PAA
-
-Please run the following command,
-
-```
-python tools/test_ensemble.py configs/calibration/single_models/paa_r50_fpn_straug_3x_minicoco.py --eval bbox
-```
-and obtain the following results:
 
 ('bbox_mAP', 0.432), ('bbox_mAP_50', 0.608), ('bbox_mAP_75', 0.471), ('bbox_mAP_s', 0.27), ('bbox_mAP_m', 0.47), ('bbox_mAP_l', 0.576)
 
-## 2. Reproducing the Results in Table 4
-
-### Our MoCaE of 3 Detectors (Ours)
-
-Please run the following command,
-
+- To obtain MoCaE of these 3 Detectors, please run the following command,
 ```
 python tools/test_ensemble.py configs/calibration/rs_atss_paa_r50_fpn_straug_3x_minicoco_calibrated_refiningnms.py --eval bbox 
 ```
-and obtain the following results:
+and obtain the following result:
 
 ('bbox_mAP', 0.455), ('bbox_mAP_50', 0.632), ('bbox_mAP_75', 0.5), ('bbox_mAP_s', 0.297), ('bbox_mAP_m', 0.497), ('bbox_mAP_l', 0.593)
 
-### Vanilla MoE of RS R-CNN, ATSS, PAA (without calibration)
-Please run the following command,
-
+- To obtain Vanilla MoE of RS R-CNN, ATSS, PAA (without calibration), please run the following command,
 ```
 python tools/test_ensemble.py configs/calibration/rs_atss_paa_r50_fpn_straug_3x_minicoco_uncalibrated.py --eval bbox 
 ```
-and obtain the following results:
+and obtain the following result:
 
 ('bbox_mAP', 0.434), ('bbox_mAP_50', 0.625), ('bbox_mAP_75', 0.471), ('bbox_mAP_s', 0.273), ('bbox_mAP_m', 0.473), ('bbox_mAP_l', 0.58)
 
-### An Example Deep Ensemble (RS R-CNN x 5)
-We share one of the deep ensembles to keep the size of the calibration.zip lower as a deep ensemble requires several models. To reproduce, RS R-CNN x 5, please run the following command,
-
+- Finally, to obtain an Example Deep Ensemble (RS R-CNN x 5), we share one of the deep ensembles to keep the size of the calibration.zip lower as a deep ensemble requires several models. To reproduce, RS R-CNN x 5, please run the following command,
 ```
 python tools/test_ensemble.py configs/calibration/rs_rcnn5_r50_fpn_mstrain_3x_minicoco.py --eval bbox
 ```
-and obtain the following results:
+and obtain the following result:
 
 ('bbox_mAP', 0.434), ('bbox_mAP_50', 0.63), ('bbox_mAP_75', 0.477), ('bbox_mAP_s', 0.28), ('bbox_mAP_m', 0.475), ('bbox_mAP_l', 0.57)
 
-## 3. Calibrating the Detectors 
+### 2. Calibrating the Object Detectors 
 
 Please run the following command,
 
@@ -124,7 +105,14 @@ ACE= 0.08949849505398023
 MCE= 0.3724112771554677
 ```
 
-Here, we obtain the calibrators with 500 images following how we obtain MoEs. Hence the results for calibrated test error very slightly differ from Table 7 reporting LaECE using 2.5K images for calibration. As an example, LaECE after calibration here is 3.19 instead of 3.15 in Table 7. Besides, the uncalibrated test error remains the same as 36.45.
+Here, we obtain the calibrators with 500 images following how we obtain MoEs. Hence the results for calibrated test error very slightly differ from Table A.12 reporting LaECE using 2.5K images for calibration. As an example, LaECE after calibration here is 3.19 instead of 3.15 in Table A.12. Note that, the uncalibrated test error remains the same as 36.45.
+
+## Reproducing Rotated Object Detection Results - Coming Soon 
+
+### 1. Reproducing Rotated Object Detection Results in Table 6 - Coming Soon
+
+### 2. Calibrating the Rotated Object Detectors - Coming Soon
+
 
 ## How to Cite
 
