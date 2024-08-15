@@ -154,7 +154,7 @@ mocae_rotated_object_detection
   - Inference results of the [RTMDet](https://arxiv.org/abs/2212.07784) (obtained from the [mmrotate](https://github.com/open-mmlab/mmrotate/tree/1.x/configs/rotated_rtmdet) library). 
   - Fitted calibrators for both LSKNet and RTMDet respectively under ```./rotated_lsk/IR_class_agnostic_finaldets_ms.pkl``` and ```./rotated_rtmdet/IR_class_agnostic_finaldets_ms.pkl```.
   - Image names for **both** of the val images (``` val_images.npy ```) and test images (```test_images.npy```)
-  - And finally, the script (``` mocae_rotated_bounding_box.py ```) for generating the detections for both Vanilla MoE and MoCaE.
+  - And finally, the script (``` mocae_rotated_bounding_box.py ```) for generating the detections for both Vanilla MoE and MoCaE. ``` mocae_rotated_bounding_box.py ``` can also be found under ``` ./tools/mocae_rotated_bounding_box.py ```
 
 
 
