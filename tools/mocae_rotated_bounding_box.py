@@ -6,16 +6,11 @@ import pickle
 import argparse
 import ast
 
-<<<<<<< HEAD
 def obtain_moe_for_rotated(calibrate, iou_thr):
-=======
-def obtain_moe_for_rotated(test, calibrate, iou_thr):
->>>>>>> 961bd9b1d16fb8425e16f15cc2c833f1cfa37d2e
     model_names = ['rtmdet', 'lsk']
     from_scratch = True
     det_paths = []
     
-<<<<<<< HEAD
     if calibrate:
         target_path = './work_dirs/mocae/Task1/'
     else:
@@ -25,28 +20,6 @@ def obtain_moe_for_rotated(test, calibrate, iou_thr):
         
     for model_name in model_names:
         det_paths.append('./work_dirs/'+model_name+'/Task1/')
-=======
-    if test:
-        if calibrate:
-            target_path = './work_dirs/mocae/Task1/'
-        else:
-            target_path = './work_dirs/vanilla_moe/Task1/'
-        
-        image_files = 'test_images.npy'
-        
-        for model_name in model_names:
-            det_paths.append('./work_dirs/'+model_name+'/Task1/')
-    else:
-        if calibrate:
-            target_path = './work_dirs/mocae/Task1val/'
-        else:
-            target_path = './work_dirs/vanilla_moe/Task1val/'
-
-        image_files = 'val_images.npy'
-
-        for model_name in model_names:
-            det_paths.append('./work_dirs/'+model_name+'_r/Task1val_ms/')
->>>>>>> 961bd9b1d16fb8425e16f15cc2c833f1cfa37d2e
 
     images = list(np.load(image_files))
 
@@ -133,19 +106,12 @@ def obtain_moe_for_rotated(test, calibrate, iou_thr):
                            ] + [f'{p:.2f}' for p in qbox]
                 out_file.writelines(' '.join(txt_element) + '\n')
         out_file.close()
-
-<<<<<<< HEAD
-=======
-    if not test:
-        os.system("python DOTA_devkit/dota_evaluation_task1.py")  
     
->>>>>>> 961bd9b1d16fb8425e16f15cc2c833f1cfa37d2e
     return
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--calibrate', default=True, type=ast.literal_eval, help='Whether to calibrate before combining')
-<<<<<<< HEAD
     parser.add_argument('--iou_thr', help='IoU threshold for post-processing', default=0.35)
     
     args = parser.parse_args()
@@ -154,14 +120,3 @@ if __name__ == '__main__':
     iou_thr = args.iou_thr
     
     obtain_moe_for_rotated(calibrate, iou_thr)
-=======
-    parser.add_argument('--is_test', default=True, type=ast.literal_eval, help='Whether to combine for the test set or the val set')
-    parser.add_argument('--iou_thr', help='IoU threshold for post-processing', default=0.35)
-    args = parser.parse_args()
-
-    is_test = args.is_test
-    calibrate = args.calibrate
-    iou_thr = args.iou_thr
-    
-    obtain_moe_for_rotated(is_test, calibrate, iou_thr)
->>>>>>> 961bd9b1d16fb8425e16f15cc2c833f1cfa37d2e
