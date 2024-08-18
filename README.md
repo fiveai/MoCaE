@@ -109,7 +109,7 @@ Here, we obtain the calibrators with 500 images following how we obtain MoEs. He
 
 ## Reproducing Rotated Object Detection Results
 
-- Please download [this zip file](https://drive.google.com/file/d/1mR_KONI_wS9rs87Aum3s3HZxhDzG8foq/view?usp=sharing) and place it under the root.
+- Please download [this zip file](https://drive.google.com/file/d/1mR_KONI_wS9rs87Aum3s3HZxhDzG8foq/view?usp=sharing) and place its contents under the root.
 - It produces a directory with the following folder structure:
 
 ```text
@@ -117,17 +117,9 @@ mocae_rotated_object_detection
 ├── rotated_lsk
 │   ├── calibrators
 │   │   ├── IR_class_agnostic_finaldets_ms.pkl
-│   │   ├── ...
-│   ├── final_detections
-│   │   ├── all_test_ms.npy
-│   │   ├── ...
 ├── rotated_rtmdet
 │   ├── calibrators
 │   │   ├── IR_class_agnostic_finaldets_ms.pkl
-│   │   ├── ...
-│   ├── final_detections
-│   │   ├── all_test_ms.npy
-│   │   ├── ...
 ├── work_dirs
 │   ├── lsk
 │   │   ├── Task1
@@ -139,11 +131,8 @@ mocae_rotated_object_detection
 │   │   │   ├── ...
 │   ├── vanilla_moe
 │   │   ├── Task1/
-│   │   ├── Task1val/
 │   ├── mocae
 │   │   ├── Task1/
-│   │   ├── Task1val/
-├── mocae_rotated_bounding_box.py
 ├── val_images.npy
 ├── test_images.npy
 ```
@@ -154,7 +143,6 @@ mocae_rotated_object_detection
   - Inference results of the [RTMDet](https://arxiv.org/abs/2212.07784) (obtained from the [mmrotate](https://github.com/open-mmlab/mmrotate/tree/1.x/configs/rotated_rtmdet) library). 
   - Fitted calibrators for both LSKNet and RTMDet respectively under ```./rotated_lsk/IR_class_agnostic_finaldets_ms.pkl``` and ```./rotated_rtmdet/IR_class_agnostic_finaldets_ms.pkl```.
   - Image names for **both** of the val images (``` val_images.npy ```) and test images (```test_images.npy```)
-  - And finally, the script (``` mocae_rotated_bounding_box.py ```) for generating the detections for both Vanilla MoE and MoCaE. ``` mocae_rotated_bounding_box.py ``` can also be found under ``` ./tools/mocae_rotated_bounding_box.py ```
 
 
 
@@ -168,7 +156,7 @@ mocae_rotated_object_detection
 - To generate the **Vanilla MoE** detections for the test set, please simply run:
 
 ```
-python mocae_rotated_bounding_box.py --calibrate False
+python tools/mocae_rotated_bounding_box.py --calibrate False
 ```
 
 Then, zip all of the generated .txt files under ``` ./work_dirs/vanilla_moe/Task1/ ``` and submit the generated zip file to the [official DOTA evaluation server](https://captain-whu.github.io/DOTA/evaluation.html) to obtain $\mathrm{AP}_{50} = 80.60$.
@@ -177,7 +165,7 @@ Then, zip all of the generated .txt files under ``` ./work_dirs/vanilla_moe/Task
 - To generate the **state-of-the-art MoCaE** detections for the test set, please simply run:
 
 ```
-python mocae_rotated_bounding_box.py --calibrate True
+python tools/mocae_rotated_bounding_box.py --calibrate True
 ```
 
 
