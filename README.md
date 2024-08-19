@@ -16,10 +16,10 @@ Using this repository, you can
 
 - Reproduce single model performances for object detection,
 - Reproduce a Deep Ensemble (RS R-CNN x 5 with 43.4 AP), Vanilla MoE (with 43.4 AP) and MoCaE (with 45.5 AP),
-- Obtain calibrators for object detectors
+- Obtain calibrators for object detectors, and
+- Reproduce our DOTA result with MoCaE which is currently the state-of-the-art.
 
 Coming Soon:
-- Reproduce our DOTA result with MoCaE which is currently the state-of-the-art,
 - Obtain calibrators for rotated object detectors
   
 ## Specification of Dependencies
@@ -109,8 +109,7 @@ Here, we obtain the calibrators with 500 images following how we obtain MoEs. He
 
 ## Reproducing Rotated Object Detection Results
 
-- Please download [this zip file](https://drive.google.com/file/d/1mR_KONI_wS9rs87Aum3s3HZxhDzG8foq/view?usp=sharing) and place its contents under the root.
-- It produces a directory with the following folder structure:
+- Please download [this zip file](https://drive.google.com/file/d/1mR_KONI_wS9rs87Aum3s3HZxhDzG8foq/view?usp=sharing) and place under the root. It produces a directory with the following folder structure:
 
 ```text
 mocae_rotated_object_detection
@@ -138,13 +137,11 @@ mocae_rotated_object_detection
 ```
 
 
-- This zip file contains the following files:
-  - Inference results of the [LSKNet](https://openaccess.thecvf.com/content/ICCV2023/html/Li_Large_Selective_Kernel_Network_for_Remote_Sensing_Object_Detection_ICCV_2023_paper.html) (obtained from the [official LSKNet GitHub repository](https://github.com/zcablii/LSKNet)). 
-  - Inference results of the [RTMDet](https://arxiv.org/abs/2212.07784) (obtained from the [mmrotate](https://github.com/open-mmlab/mmrotate/tree/1.x/configs/rotated_rtmdet) library). 
-  - Fitted calibrators for both LSKNet and RTMDet respectively under ```./rotated_lsk/IR_class_agnostic_finaldets_ms.pkl``` and ```./rotated_rtmdet/IR_class_agnostic_finaldets_ms.pkl```.
+- This zip file contains the following:
+  - Inference results of the [LSKNet](https://openaccess.thecvf.com/content/ICCV2023/html/Li_Large_Selective_Kernel_Network_for_Remote_Sensing_Object_Detection_ICCV_2023_paper.html) (obtained from the [official LSKNet GitHub repository](https://github.com/zcablii/LSKNet)),
+  - Inference results of the [RTMDet](https://arxiv.org/abs/2212.07784) (obtained from the [mmrotate](https://github.com/open-mmlab/mmrotate/tree/1.x/configs/rotated_rtmdet) library),
+  - Calibrators for both LSKNet and RTMDet respectively under ```./rotated_lsk/IR_class_agnostic_finaldets_ms.pkl``` and ```./rotated_rtmdet/IR_class_agnostic_finaldets_ms.pkl```.
   - Image names for **both** of the val images (``` val_images.npy ```) and test images (```test_images.npy```)
-
-
 
 ### 1. Reproducing Rotated Object Detection Results in Table 6
 
@@ -152,25 +149,21 @@ mocae_rotated_object_detection
 
 - To reproduce the **RTMDet** results, directly submit the ``` ./work_dirs/rtmdet/Task1/Task1.zip ``` file to the [official DOTA evaluation server](https://captain-whu.github.io/DOTA/evaluation.html) and obtain $\mathrm{AP}_{50} = 81.32$.
 
-
-- To generate the **Vanilla MoE** detections for the test set, please simply run:
-
+- To generate the **Vanilla MoE** detections for the test set, please run:
+- 
 ```
 python tools/mocae_rotated_bounding_box.py --calibrate False
 ```
 
 Then, zip all of the generated .txt files under ``` ./work_dirs/vanilla_moe/Task1/ ``` and submit the generated zip file to the [official DOTA evaluation server](https://captain-whu.github.io/DOTA/evaluation.html) to obtain $\mathrm{AP}_{50} = 80.60$.
 
-
-- To generate the **state-of-the-art MoCaE** detections for the test set, please simply run:
+- To generate the **state-of-the-art MoCaE** detections for the test set, please run:
 
 ```
 python tools/mocae_rotated_bounding_box.py --calibrate True
 ```
 
-
 Then, zip all of the generated .txt files under ``` ./work_dirs/mocae/Task1/ ``` and submit the generated zip file to the [official DOTA evaluation server](https://captain-whu.github.io/DOTA/evaluation.html) to obtain $\mathrm{AP}_{50} = 82.62$.
-
 
 
 ### 2. Calibrating the Rotated Object Detectors - Coming Soon
