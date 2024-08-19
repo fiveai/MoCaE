@@ -150,19 +150,15 @@ mocae_rotated_object_detection
 - To reproduce the **RTMDet** results, directly submit the ``` ./work_dirs/rtmdet/Task1/Task1.zip ``` file to the [official DOTA evaluation server](https://captain-whu.github.io/DOTA/evaluation.html) and obtain $\mathrm{AP}_{50} = 81.32$.
 
 - To generate the **Vanilla MoE** detections for the test set, please run:
-- 
 ```
 python tools/mocae_rotated_bounding_box.py --calibrate False
 ```
-
 Then, zip all of the generated .txt files under ``` ./work_dirs/vanilla_moe/Task1/ ``` and submit the generated zip file to the [official DOTA evaluation server](https://captain-whu.github.io/DOTA/evaluation.html) to obtain $\mathrm{AP}_{50} = 80.60$.
 
 - To generate the **state-of-the-art MoCaE** detections for the test set, please run:
-
 ```
 python tools/mocae_rotated_bounding_box.py --calibrate True
 ```
-
 Then, zip all of the generated .txt files under ``` ./work_dirs/mocae/Task1/ ``` and submit the generated zip file to the [official DOTA evaluation server](https://captain-whu.github.io/DOTA/evaluation.html) to obtain $\mathrm{AP}_{50} = 82.62$.
 
 
