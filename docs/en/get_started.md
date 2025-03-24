@@ -49,7 +49,7 @@ mim install mmcv-full
 Case a: If you develop and run mmdet directly, install it from source:
 
 ```shell
-git clone https://github.com/open-mmlab/mmdetection.git
+git clone https://github.com/fiveai/MoCaE.git
 cd mmdetection
 pip install -v -e .
 # "-v" means verbose, or more output
