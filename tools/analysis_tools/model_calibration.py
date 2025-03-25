@@ -56,7 +56,6 @@ def get_ann(cocoGt, ann_ids, dataset_classes):
 def create_calibration_dataset(cocoGt, model_detections, filename, dataset_classes, num_images=500):
     all_detections = []
     num_classes = len(dataset_classes)
-    breakpoint()
     
     if num_images > 0 and num_images < 2500:
         idx = np.random.choice(range(len(cocoGt.dataset['images'])), size=num_images, replace=False)

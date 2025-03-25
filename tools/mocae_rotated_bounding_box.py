@@ -7,21 +7,23 @@ import argparse
 import ast
 
 def obtain_moe_for_rotated(calibrate, iou_thr):
-    model_names = ['rtmdet', 'lsk']
+    model_names = ['rotated_rtmdet', 'lsk']
     from_scratch = True
     det_paths = []
     
     if calibrate:
-        target_path = './work_dirs/mocae/Task1/'
+        target_path = 'calibration/rotated_mocae/Task1/'
     else:
-        target_path = './work_dirs/vanilla_moe/Task1/'
+        target_path = 'calibration/rotated_vanilla_moe/Task1/'
         
-    image_files = 'test_images.npy'
+    image_files = 'dota_test_images.npy'
         
     for model_name in model_names:
-        det_paths.append('./work_dirs/'+model_name+'/Task1/')
+        det_paths.append('calibration/'+model_name+'/final_detections/Task1/')
 
-    images = list(np.load(image_files))
+    with open('calibration/data/'+image_files) as file:
+        for line in file: 
+            images = [l.strip('\'').strip(' \'') for l in line.split(',')]
 
     # Find all the txt files in an example results folder
     inputs = []
@@ -35,7 +37,7 @@ def obtain_moe_for_rotated(calibrate, iou_thr):
         # Obtain the pre-fitted calibrators for each model
         for model_name in model_names:
             print(model_name)
-            calibration_file = "rotated_" + model_name + "/calibrators/IR_class_agnostic_finaldets_ms.pkl"
+            calibration_file = "calibration/" + model_name + "/calibrators/IR_class_agnostic_finaldets_ms.pkl"
 
             if os.path.exists(calibration_file):
                 with open(calibration_file, 'rb') as f:
