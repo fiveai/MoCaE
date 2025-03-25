@@ -35,9 +35,6 @@ Using this repository, you can
 - Obtain calibrators for object detectors, and
 - Reproduce our DOTA result with MoCaE which is currently the state-of-the-art.
 
-Coming Soon:
-- Obtain calibrators for rotated object detectors
-  
 ## Specification of Dependencies and Preparation
 
 - Please see [get_started.md](docs/en/get_started.md) for requirements and installation of mmdetection.
