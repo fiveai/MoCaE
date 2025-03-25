@@ -12,16 +12,16 @@ def obtain_moe_for_rotated(calibrate, iou_thr):
     det_paths = []
     
     if calibrate:
-        target_path = 'calibration/rotated_mocae/Task1/'
+        target_path = 'calibration/rotated_mocae/test/Task1/'
     else:
-        target_path = 'calibration/rotated_vanilla_moe/Task1/'
+        target_path = 'calibration/rotated_vanilla_moe/test/Task1/'
         
-    image_files = 'dota_test_images.npy'
+    test_image_file = 'dota_test_images.txt'
         
     for model_name in model_names:
-        det_paths.append('calibration/'+model_name+'/final_detections/Task1/')
+        det_paths.append('calibration/'+model_name+'/final_detections/test/Task1/')
 
-    with open('calibration/data/'+image_files) as file:
+    with open('calibration/data/'+test_image_file) as file:
         for line in file: 
             images = [l.strip('\'').strip(' \'') for l in line.split(',')]
 
@@ -69,6 +69,7 @@ def obtain_moe_for_rotated(calibrate, iou_thr):
         scores = []
 
         for line in all_detections:
+
             split = line.split()
 
             # Get image id
