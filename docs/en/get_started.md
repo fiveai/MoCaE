@@ -50,11 +50,16 @@ Case a: If you develop and run mmdet directly, install it from source:
 
 ```shell
 git clone https://github.com/fiveai/MoCaE.git
-cd mmdetection
+cd MoCaE
 pip install -v -e .
 # "-v" means verbose, or more output
 # "-e" means installing a project in editable mode,
 # thus any local modifications made to the code will take effect without reinstallation.
+```
+You might need to install timm and scikit learn as well:
+```shell
+pip install timm
+pip install scikit-learn
 ```
 
 Case b: If you use mmdet as a dependency or third-party package, install it with pip:
