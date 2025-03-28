@@ -11,6 +11,7 @@ import pickle
 import random
 from operator import itemgetter 
 import json
+from mmcv.ops import box_iou_quadri
 
 def set_all_seeds(seed):
   random.seed(seed)
@@ -21,24 +22,41 @@ def set_all_seeds(seed):
 
 set_all_seeds(0)
 
-def assign_post(ann_dict, det_bboxes, det_score, det_label, dataset_classes, min_iou=0.5, max_iou=0.7):
+# coco-format annotations are in [x1, y1, w, h]
+
+# def assign_post(ann_dict, det_bboxes, det_score, det_label, dataset_classes, min_iou=0.5, max_iou=0.7):
+#     num_classes = len(dataset_classes)
+#     ious = np.zeros([det_bboxes.shape[0]])
+#     ## Assign
+#     for k, v in ann_dict.items():
+#         # Convert to numpy and reshape
+#         gt_boxes = np.array(v).reshape(-1, 4)
+
+#         # Convert to TL, BR representation
+#         gt_boxes[:, 2] += gt_boxes[:, 0]
+#         gt_boxes[:, 3] += gt_boxes[:, 1]
+
+#         rel_idx = (det_label==k).nonzero()[0]
+
+#         ious_cl = (bbox_overlaps(torch.from_numpy(gt_boxes), torch.from_numpy(det_bboxes[rel_idx]))).numpy()
+
+#         ious[rel_idx] = np.max(ious_cl, axis=0)
+
+#     return ious
+
+
+# Dota-format annotations are in [x1, y1, x2, y2, x3, y3, x4, y4]
+# use box_iou_quadri to compute the iou for rotated boxes
+def assign_rotated(ann_dict, det_bboxes, det_score, det_label, dataset_classes):
     num_classes = len(dataset_classes)
     ious = np.zeros([det_bboxes.shape[0]])
     ## Assign
     for k, v in ann_dict.items():
         # Convert to numpy and reshape
-        gt_boxes = np.array(v).reshape(-1, 4)
-
-        # Convert to TL, BR representation
-        gt_boxes[:, 2] += gt_boxes[:, 0]
-        gt_boxes[:, 3] += gt_boxes[:, 1]
-
+        gt_boxes = np.array(v).reshape(-1, 8)
         rel_idx = (det_label==k).nonzero()[0]
-
-        ious_cl = (bbox_overlaps(torch.from_numpy(gt_boxes), torch.from_numpy(det_bboxes[rel_idx]))).numpy()
-
+        ious_cl = (box_iou_quadri(torch.from_numpy(gt_boxes).float(), torch.from_numpy(det_bboxes[rel_idx]).float())).numpy()
         ious[rel_idx] = np.max(ious_cl, axis=0)
-
     return ious
 
 def get_ann(cocoGt, ann_ids, dataset_classes):
@@ -87,9 +105,10 @@ def create_calibration_dataset(cocoGt, model_detections, filename, dataset_class
         if det_bboxes.ndim < 2:
             continue
 
-        # Convert to TL, BR representation
-        det_bboxes[:, 2] += det_bboxes[:, 0]
-        det_bboxes[:, 3] += det_bboxes[:, 1]
+        # Convert to TL, BR representation 
+        # delete these two lines if you want to use assign_rotate()
+        # det_bboxes[:, 2] += det_bboxes[:, 0]
+        # det_bboxes[:, 3] += det_bboxes[:, 1]
 
         # Get ground truth bounding boxes
         # ann_ids = cocoGt.getAnnIds(imgIds=img['id'])
@@ -99,8 +118,10 @@ def create_calibration_dataset(cocoGt, model_detections, filename, dataset_class
 
         ann_dict = get_ann(cocoGt, ann_ids, dataset_classes)
         
-        ious = assign_post(ann_dict, det_bboxes, det_score, det_label, dataset_classes)
-
+        # ious = assign_post(ann_dict, det_bboxes, det_score, det_label, dataset_classes)
+        ious = assign_rotated(ann_dict, det_bboxes, det_score, det_label, dataset_classes)
+        
+        
         detections = np.concatenate((np.expand_dims(det_score, axis=1), np.expand_dims(ious, axis=1), np.expand_dims(det_label, axis=1)), axis=1)
 
 
@@ -231,19 +252,24 @@ if __name__ == '__main__':
 
     calibration_type = 'IR'
     class_agnostic_calibration = True
-    num_images = 500
+    num_images = 458
 
-    val_file = 'calibration/data/calibration_val2017.json'
-    test_file = 'calibration/data/calibration_test2017.json'
-    model_detections = "calibration/" + model_name + "/final_detections/val.bbox.json"
-    model_detections_test = "calibration/" + model_name + "/final_detections/val.bbox.json"
-    filename_val = "calibration/" + model_name + "/final_detections/" + 'all_val500.npy'
-    filename_test = "calibration/" + model_name + "/final_detections/" + 'all_test.npy'
+    # val_file = 'calibration/data/calibration_val2017.json'
+    # test_file = 'calibration/data/calibration_test2017.json'
+    val_file = '/data/dota/val/DOTA_1.0.json'
+    test_file = '/data/dota/val/DOTA_1.0.json'
+    # model_detections = "calibration/" + model_name + "/final_detections/val.bbox.json"
+    # model_detections_test = "calibration/" + model_name + "/final_detections/val.bbox.json"
+    model_detections = "calibration/" + model_name + "/obb_final_detections/val.bbox.json"
+    model_detections_test = "calibration/" + model_name + "/obb_final_detections/val.bbox.json"
+    
+    filename_val = "calibration/" + model_name + "/obb_final_detections/" + 'all_val.npy'
+    filename_test = "calibration/" + model_name + "/obb_final_detections/" + 'all_test.npy'
 
     if class_agnostic_calibration:
-        calibration_file = "calibration/" + model_name + "/calibrators/" + calibration_type + '_class_agnostic_finaldets500.pkl'
+        calibration_file = "mocae_rotated_object_detection/" + model_name + "/calibrators/" + calibration_type + '_class_agnostic_finaldets458.pkl'
     else:
-        calibration_file = "calibration/" + model_name + "/calibrators/" + calibration_type + '_class_wise_finaldets500.pkl'
+        calibration_file = "mocae_rotated_object_detection/" + model_name + "/calibrators/" + calibration_type + '_class_wise_finaldets458.pkl'
 
 
     calibrator = get_calibrator(val_file, calibration_file, model_detections, calibration_type, class_agnostic=class_agnostic_calibration,
