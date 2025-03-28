@@ -7,7 +7,7 @@ import argparse
 import ast
 
 def obtain_moe_for_rotated(calibrate, iou_thr):
-    model_names = ['rotated_rtmdet', 'lsk']
+    model_names = ['rtmdet', 'lsk']
     from_scratch = True
     det_paths = []
     

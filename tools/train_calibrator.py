@@ -20,7 +20,7 @@ from mmdet.utils import (build_ddp, build_dp, compat_cfg, get_device,
                          replace_cfg_vals, setup_multi_processes,
                          update_data_root)
 
-from analysis_tools.model_calibration import nn_calibrator
+from tools.analysis_tools.model_calibration_rotate import nn_calibrator
 
 def parse_args():
     parser = argparse.ArgumentParser(
